@@ -1,0 +1,23 @@
+*&---------------------------------------------------------------------*
+*& Report YFUHCM016_DAY02_EX02
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT yfuhcm016_day02_ex02.
+
+DATA: lv_one TYPE i VALUE 0.
+DATA: lv_two TYPE i VALUE 1.
+DATA: lv_last TYPE i VALUE 1.
+PARAMETERS: NoI TYPE i.           "NoI is Number of Iterations
+
+DO noi TIMES.
+  lv_last = lv_one + lv_two.      "lv_last is result
+  lv_one = lv_two.
+  lv_two = lv_last.
+  WRITE:/ lv_last.
+ENDDO.
+
+START-OF-SELECTION.
+  IF NoI = 0.
+    WRITE: 'result: 1'.
+  ENDIF.
