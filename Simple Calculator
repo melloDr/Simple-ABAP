@@ -1,0 +1,62 @@
+*&---------------------------------------------------------------------*
+*& Report YFUHCM016_DAY02_EX01
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT yfuhcm016_day02_ex01.
+
+
+*CONSTANTS: First_Num TYPE I VALUE 0.
+
+************PARAMETER***********
+PARAMETERS: F_Num TYPE i,
+            S_Num TYPE i,
+            Op    TYPE c LENGTH 1.
+
+************DATA****************
+DATA: lv_out  TYPE int2,
+      lv_sign TYPE c,
+      flag    TYPE int1 VALUE 0.
+DATA: spe_char(31) VALUE '+-*/**MOD'.
+
+*************EVENT**************
+
+*************CHECK Op***********
+AT SELECTION-SCREEN.
+  IF Op CN '+-*/^M'.
+    MESSAGE 'Only input your operator: +, -, *, /, ^(**), M(MOD)' TYPE 'E'.
+  ENDIF.
+************CASE***************
+  CASE Op.
+    WHEN '+'.
+      flag = 1.
+      lv_out = f_num + s_num.
+    WHEN '-'.
+      flag = 1.
+      lv_out = f_num = s_num.
+    WHEN '*'.
+      flag = 1.
+      lv_out = f_num * s_num.
+    WHEN '/'.
+      IF s_num <> 0.
+        flag = 1.
+        lv_out = f_num / s_num.
+      ELSE.
+        flag = 2.
+      ENDIF.
+    WHEN '^'.
+      flag = 1.
+      lv_out = f_num ** s_num.
+    WHEN 'M'.
+      flag = 1.
+      lv_out = f_num MOD s_num.
+  ENDCASE.
+
+START-OF-SELECTION.
+  IF flag = 1.
+    WRITE: lv_out.
+  ELSEIF flag = 2.
+    WRITE: 'Cannot Divide a number by 0'.
+  ELSEIF flag = 0.
+    MESSAGE 'Press any Button to perform any operation!' TYPE 'I'.
+  ENDIF.
